@@ -17,11 +17,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('manage-rooms', function($user){
-        return in_array($user->role, ['admin','staff']);
+        return in_array($user->role, ['staff']);
         });
 
         Gate::define('approve-booking', function($user){
-        return in_array($user->role, ['admin','staff']);    
+        return in_array($user->role, ['staff']);    
         });
     }
 }

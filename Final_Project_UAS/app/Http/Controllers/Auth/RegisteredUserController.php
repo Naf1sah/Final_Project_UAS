@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'mahasiswa', // ⬅️ Sesuai field di migration kamu
+            'role' => 'user', // ⬅️ Sesuai field di migration kamu
         ]);
 
         event(new Registered($user));

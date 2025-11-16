@@ -21,7 +21,7 @@ Route::middleware(['auth'])->group(function(){
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'user'])->name('user.dashboard');
-     Route::get('/staff/dashboard', [DashboardController::class, 'staff'])->name('staff.dashboard');
+    Route::get('/staff/dashboard', [DashboardController::class, 'staff'])->name('staff.dashboard');
 
     // Rooms CRUD (kecuali show)
     Route::resource('rooms', RoomController::class)->except(['show']);
@@ -30,16 +30,32 @@ Route::middleware(['auth'])->group(function(){
     Route::resource('bookings', BookingController::class)->only(['index','create','store']);
 
     // Approve & Reject bookings
-    Route::post('bookings/{booking}/approve', [BookingController::class,'approve'])->name('bookings.approve');
-    Route::post('bookings/{booking}/reject', [BookingController::class,'reject'])->name('bookings.reject');
+    Route::post('bookings/{booking}/approve', [BookingController::class,'approve'])
+        ->name('bookings.approve');
+    Route::post('bookings/{booking}/reject', [BookingController::class,'reject'])
+        ->name('bookings.reject');
 
-    // Profile routes
+    /*
+    |-----------------------------------------
+    | Profile Routes (index, edit, update)
+    |-----------------------------------------
+    */
+
+    // ➕ Tambahan route untuk profile.index
+    Route::get('/profile/index', function () {
+        return view('profile.index', [
+            'user' => auth()->user()
+        ]);
+    })->name('profile.index');
+
+    // Halaman edit profil
     Route::get('/profile', function () {
         return view('profile.edit', [
-            'user' => auth()->user() // kirim user ke view
+            'user' => auth()->user()
         ]);
     })->name('profile.edit');
 
+    // Proses update profil
     Route::post('/profile', function (\Illuminate\Http\Request $request) {
         $user = $request->user();
         $user->name = $request->name;
@@ -49,6 +65,7 @@ Route::middleware(['auth'])->group(function(){
         return redirect()->route('profile.edit')->with('status', 'Profile updated!');
     })->name('profile.update');
 
+    // Delete akun
     Route::delete('/profile', function (\Illuminate\Http\Request $request) {
         $user = $request->user();
         Auth::logout();

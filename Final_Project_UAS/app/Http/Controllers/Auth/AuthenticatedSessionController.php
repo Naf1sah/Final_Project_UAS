@@ -24,40 +24,38 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        // Pastikan LoginRequest memiliki method authenticate()
-        // Biasanya berasal dari Laravel Breeze / Fortify
         $request->authenticate();
-
-        // Regenerasi session agar aman
         $request->session()->regenerate();
 
-        // Ambil data user yang login
         $user = Auth::user();
 
-        // Logika redirect berdasarkan role utama
+        // 🔥 Jika staff (admin)
         if ($user->role === 'staff') {
             return redirect()->route('staff.dashboard');
         }
 
-        // Jika role = user, bisa memiliki tipe dosen/mahasiswa
+        // 🔥 Jika user biasa (mahasiswa atau dosen)
         if ($user->role === 'user') {
-            // Contoh: jika ada kolom user_type di tabel users
-            if ($user->user_type === 'dosen') {
-                return redirect()->route('user.dosen.dashboard');
-            } elseif ($user->user_type === 'mahasiswa') {
-                return redirect()->route('user.mahasiswa.dashboard');
+
+            // Kalau kamu ingin pisah dashboard dosen/mahasiswa
+            if ($user->jenis_user === 'dosen') {
+                return redirect()->route('user.dashboard'); // atau route lain jika ada
             }
 
-            // Default fallback
+            if ($user->jenis_user === 'mahasiswa') {
+                return redirect()->route('user.dashboard'); // atau route lain jika ada
+            }
+
+            // Default
             return redirect()->route('user.dashboard');
         }
 
-        // Jika tidak cocok, arahkan ke halaman utama
+        // Fallback
         return redirect('/');
     }
 
     /**
-     * Logout user & hapus sesi.
+     * Logout user.
      */
     public function destroy(Request $request): RedirectResponse
     {

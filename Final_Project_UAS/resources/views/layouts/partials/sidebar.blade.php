@@ -9,14 +9,22 @@
     <div class="sidebar">
         <!-- Sidebar user info -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-            <div class="info">
-                @auth
-                    <a href="#" class="d-block">{{ Auth::user()->name }}</a>
-                @else
-                    <a href="#" class="d-block text-muted">Guest</a>
-                @endauth
-            </div>
-        </div>
+    
+    <!-- Icon User -->
+    <div class="image d-flex align-items-center">
+        <i class="fas fa-user-circle fa-2x text-white"></i>
+    </div>
+
+    <!-- Nama User -->
+    <div class="info ml-2">
+        @auth
+            <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+        @else
+            <a href="#" class="d-block text-muted">Guest</a>
+        @endauth
+    </div>
+</div>
+
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -62,17 +70,6 @@
                             </a>
                         </li>
                     @endif
-
-                    {{-- Logout --}}
-                    <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="nav-link btn btn-link text-left text-white">
-                                <i class="nav-icon fas fa-sign-out-alt"></i>
-                                <p>Logout</p>
-                            </button>
-                        </form>
-                    </li>
                 @else
                     {{-- Guest Menu --}}
                     <li class="nav-item">

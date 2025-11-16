@@ -20,7 +20,7 @@ class RoomController extends Controller
 
     public function create()
     {
-        this->authorize('manage-rooms');
+        $this->authorize('manage-rooms');
         return view('rooms.create');
     }
 
