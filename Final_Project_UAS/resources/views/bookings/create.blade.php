@@ -1,76 +1,85 @@
 @extends('layouts.app')
 
-@section('title', 'Create Booking')
-
 @section('content')
-<div class="container mt-4">
 
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h4>Form Booking Ruangan</h4>
+<style>
+    body {
+        background: #f3f6fb !important;
+    }
+    .booking-card {
+        border-radius: 14px;
+        overflow: hidden;
+        border: none;
+    }
+    .booking-card .card-header {
+        background: linear-gradient(135deg, #007bff, #00a6ff);
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 16px 20px;
+    }
+    .form-label {
+        font-weight: 600 !important;
+        color: #333;
+    }
+    .btn-primary {
+        padding-left: 25px;
+        padding-right: 25px;
+        border-radius: 8px;
+    }
+    .btn-secondary {
+        border-radius: 8px;
+    }
+</style>
+
+<div class="container-fluid px-4">
+    <h3 class="fw-bold mb-4">📄 Buat Booking Ruangan</h3>
+    <div class="card shadow booking-card">
+        <div class="card-header">
+            Form Booking Ruangan
         </div>
-
-        <div class="card-body">
-
-            {{-- Error global --}}
-            @if ($errors->has('time'))
-                <div class="alert alert-danger">
-                    {{ $errors->first('time') }}
-                </div>
-            @endif
-
+        <div class="card-body p-4">
             <form action="{{ route('bookings.store') }}" method="POST">
                 @csrf
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <label class="form-label">Pilih Ruangan</label>
+                        <select name="room_id" class="form-select shadow-sm" required>
+                            <option value="" disabled selected>-- pilih ruangan --</option>
+                            @foreach($rooms as $room)
+                                <option value="{{ $room->id }}">{{ $room->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                {{-- PILIH RUANGAN --}}
-                <div class="form-group">
-                    <label>Ruangan</label>
-                    <select name="room_id" class="form-control" required>
-                        <option value="">-- Pilih Ruangan --</option>
-                        @foreach($rooms as $room)
-                            <option value="{{ $room->id }}">
-                                {{ $room->name }} (kapasitas: {{ $room->capacity }})
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('room_id') <small class="text-danger">{{ $message }}</small> @enderror
+                    <div class="col-md-3">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" name="date" class="form-control shadow-sm" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Mulai</label>
+                        <input type="time" name="start_time" class="form-control shadow-sm" required>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label class="form-label">Selesai</label>
+                        <input type="time" name="end_time" class="form-control shadow-sm" required>
+                    </div>
                 </div>
 
-                {{-- TANGGAL --}}
-                <div class="form-group">
-                    <label>Tanggal</label>
-                    <input type="date" name="date" class="form-control" value="{{ old('date') }}" required>
-                    @error('date') <small class="text-danger">{{ $message }}</small> @enderror
+                <div class="mt-4">
+                    <label class="form-label">Keperluan</label>
+                    <textarea name="purpose" rows="3" class="form-control shadow-sm"></textarea>
                 </div>
 
-                {{-- JAM MULAI --}}
-                <div class="form-group">
-                    <label>Jam Mulai</label>
-                    <input type="time" name="start_time" class="form-control" value="{{ old('start_time') }}" required>
-                    @error('start_time') <small class="text-danger">{{ $message }}</small> @enderror
+                <div class="mt-4 text-end">
+                    <button class="btn btn-secondary me-2" type="reset">Reset</button>
+                    <button class="btn btn-primary" type="submit">Submit Booking</button>
                 </div>
-
-                {{-- JAM SELESAI --}}
-                <div class="form-group">
-                    <label>Jam Selesai</label>
-                    <input type="time" name="end_time" class="form-control" value="{{ old('end_time') }}" required>
-                    @error('end_time') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
-
-                {{-- KEGUNAAN --}}
-                <div class="form-group">
-                    <label>Keperluan</label>
-                    <textarea name="purpose" class="form-control" rows="3">{{ old('purpose') }}</textarea>
-                    @error('purpose') <small class="text-danger">{{ $message }}</small> @enderror
-                </div>
-
-                <button type="submit" class="btn btn-success mt-3">Kirim Permintaan</button>
-                <a href="{{ route('bookings.index') }}" class="btn btn-secondary mt-3">Kembali</a>
-
             </form>
-
         </div>
     </div>
-
 </div>
+
 @endsection
