@@ -28,29 +28,19 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = Auth::user();
-
-        // 🔥 Jika staff (admin)
         if ($user->role === 'staff') {
             return redirect()->route('staff.dashboard');
         }
-
-        // 🔥 Jika user biasa (mahasiswa atau dosen)
         if ($user->role === 'user') {
-
-            // Kalau kamu ingin pisah dashboard dosen/mahasiswa
             if ($user->jenis_user === 'dosen') {
-                return redirect()->route('user.dashboard'); // atau route lain jika ada
+                return redirect()->route('user.dashboard'); 
             }
 
             if ($user->jenis_user === 'mahasiswa') {
-                return redirect()->route('user.dashboard'); // atau route lain jika ada
+                return redirect()->route('user.dashboard'); 
             }
-
-            // Default
             return redirect()->route('user.dashboard');
         }
-
-        // Fallback
         return redirect('/');
     }
 

@@ -15,7 +15,7 @@ $table->string('username')->unique();
 $table->string('email')->unique();
 $table->timestamp('email_verified_at')->nullable();
 $table->string('password');
-$table->enum('role',['staff','user'])->default('user');
+$table->string('role',['staff','user'])->default('user');
 $table->enum('jenis_user', ['mahasiswa', 'dosen'])->nullable();
 $table->rememberToken();
 $table->timestamps();

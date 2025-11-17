@@ -18,7 +18,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register_user'); // ⬅️ arahkan ke user register
+        return view('auth.register_user'); 
     }
 
     /**
@@ -30,7 +30,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * 🔹 Tampilkan form register user
+     * Tampilkan form register user
      */
     public function createUser(): View
     {
@@ -38,7 +38,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * 🔹 Proses simpan data user
+     * Proses simpan data user
      */
     public function storeUser(Request $request): RedirectResponse
     {
@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'user', // ⬅️ Sesuai field di migration kamu
+            'role' => 'user',
         ]);
 
         event(new Registered($user));
@@ -63,7 +63,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * 🔸 Tampilkan form register staff
+     * Tampilkan form register staff
      */
     public function createStaff(): View
     {
@@ -71,7 +71,7 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * 🔸 Proses simpan data staff
+     * Proses simpan data staff
      */
     public function storeStaff(Request $request): RedirectResponse
     {
@@ -87,7 +87,7 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'staff', // ⬅️ otomatis jadi staff
+            'role' => 'staff', 
         ]);
 
         event(new Registered($staff));
