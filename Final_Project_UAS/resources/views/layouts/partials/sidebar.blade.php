@@ -69,6 +69,12 @@
                                 <p>Daftar Booking</p>
                             </a>
                         </li>
+                         <li class="nav-item">
+                            <a href="{{ route('bookings.rooms') }}" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Daftar Ruangan</p>
+                            </a>
+                        </li>
                     @endif
                 @else
                     {{-- Guest Menu --}}

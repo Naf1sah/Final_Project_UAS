@@ -23,6 +23,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'user'])->name('user.dashboard');
     Route::get('/staff/dashboard', [DashboardController::class, 'staff'])->name('staff.dashboard');
 
+    // List rooms untuk user biasa
+    Route::get('/bookings/rooms', [RoomController::class, 'listForBooking'])
+    ->name('bookings.rooms');
+
+
     // Rooms CRUD (kecuali show)
     Route::resource('rooms', RoomController::class)->except(['show']);
 
