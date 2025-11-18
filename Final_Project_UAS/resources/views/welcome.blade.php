@@ -64,7 +64,7 @@
             src="/lottie/mascot-animation.json"
             background="transparent"
             speed="1"
-            style="width: 280px; height: 280px;"
+            style="width: 480px; height: 480px;"
             loop
             autoplay
         ></lottie-player>
