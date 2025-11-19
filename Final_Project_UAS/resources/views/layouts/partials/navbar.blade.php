@@ -67,6 +67,8 @@
         <a href="{{ route('notifications.all') }}" class="dropdown-item dropdown-footer">
             Lihat Semua Notifikasi
         </a>
+    
+        
 
     </div>
 </li>

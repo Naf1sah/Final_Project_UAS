@@ -94,6 +94,8 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+
+
 require __DIR__.'/auth.php';
 
 // Redirect default "home" ke dashboard user

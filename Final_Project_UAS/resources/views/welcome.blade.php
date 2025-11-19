@@ -8,7 +8,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col min-h-screen bg-blue-900 dark:bg-blue-950 text-black">
+<body class="flex flex-col min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-yellow-300 text-black">
+
 
     <!-- Header -->
     <header class="w-full border-t border-[#19140035] dark:border-[#3E3E3A] py-4">
