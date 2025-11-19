@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function(){
 
     // Rooms CRUD (kecuali show)
     Route::resource('rooms', RoomController::class)->except(['show']);
+    
 
     // Bookings CRUD (hanya index, create, store)
     Route::resource('bookings', BookingController::class)->only(['index','create','store']);
@@ -84,3 +85,5 @@ require __DIR__.'/auth.php';
 Route::get('/home', function () {
     return redirect()->route('user.dashboard');
 })->name('home');
+
+
