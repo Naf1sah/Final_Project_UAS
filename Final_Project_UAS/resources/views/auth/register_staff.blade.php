@@ -15,7 +15,7 @@
 
     <div class="card shadow-sm" style="width: 400px;">
         <div class="card-body">
-            <h4 class="text-center mb-4">Create Your Account as Admin</h4>
+            <h4 class="text-center mb-4 font-weight-bold">Create Your Account as Admin</h4>
 
             <form method="POST" action="{{ route('register.staff') }}">
                 @csrf

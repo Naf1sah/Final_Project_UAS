@@ -18,9 +18,53 @@
 <div class="wrapper">
 
     {{-- Navbar --}}
+    <style>
+    /* Navbar hover */
+    .navbar-nav .nav-link:hover {
+        color: #2563eb !important;
+        background: rgba(37, 99, 235, 0.08);
+        border-radius: 6px;
+    }
+
+    /* Dropdown styling */
+    .dropdown-menu {
+        border-radius: 10px;
+    }
+
+    .dropdown-item:hover {
+        background: rgba(37, 99, 235, 0.12);
+        color: #1d4ed8 !important;
+        font-weight: 500;
+    }
+</style>
+
     @include('layouts.partials.navbar')
 
     {{-- Sidebar --}}
+    <style>
+    /* Hover item */
+    .nav-sidebar .nav-item:hover > .nav-link {
+        background: rgba(255, 255, 255, 0.25) !important;
+        color: white !important;
+    }
+    .nav-sidebar .nav-item:hover > .nav-link i {
+        color: white !important;
+    }
+
+    /* Active (saat halaman sedang dibuka) */
+    .nav-sidebar .nav-link.active {
+        background: #ffffff !important;
+        color: #1d4ed8 !important; /* biru */
+        font-weight: bold;
+    }
+
+    /* Icon ikut biru saat active */
+    .nav-sidebar .nav-link.active i {
+        color: #1d4ed8 !important;
+    }
+</style>
+
+
     @include('layouts.partials.sidebar')
 
     {{-- Main Content --}}
