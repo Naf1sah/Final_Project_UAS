@@ -12,11 +12,18 @@ class RoomController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
+    if ($request->has('status') && in_array($request->status, ['available', 'maintenance'])) {
+        $rooms = Room::where('status', $request->status)->get();
+    } else {
+    
         $rooms = Room::all();
-        return view('rooms.index', compact('rooms'));
     }
+
+    return view('rooms.index', compact('rooms'));
+}
+
 
     public function create()
     {
@@ -69,4 +76,12 @@ class RoomController extends Controller
         return redirect()->route('rooms.index')->with('success', 'Ruangan berhasil dihapus.');
 
     }
+
+    public function listForBooking()
+
+    {
+    $rooms = Room::all();
+    return view('bookings.rooms', compact('rooms'));
+    }
+
 }

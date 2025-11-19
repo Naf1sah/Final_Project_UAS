@@ -7,12 +7,16 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-</head>
-<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
 
-    <div class="card shadow-sm" style="width: 400px;">
+    <!-- Tailwind (optional if login juga pakai Tailwind) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-yellow-300 p-6">
+
+    <div class="card shadow-lg border-0" style="width: 400px;">
         <div class="card-body">
-            <h4 class="text-center mb-4">Create Your Account</h4>
+            <h4 class="text-center mb-4 font-weight-bold">Create Your Account</h4>
 
             <form method="POST" action="{{ route('register.user') }}">
                 @csrf
@@ -48,7 +52,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mt-4">
                     <a href="{{ route('login') }}" class="text-muted small">Already have an account?</a>
-                    <button type="submit" class="btn btn-primary">Register</button>
+                    <button type="submit" class="btn btn-primary px-4">Register</button>
                 </div>
             </form>
         </div>

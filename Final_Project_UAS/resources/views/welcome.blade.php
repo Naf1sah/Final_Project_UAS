@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selamat Datang</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-yellow-300 text-black">
+
 
     <!-- Header -->
     <header class="w-full border-t border-[#19140035] dark:border-[#3E3E3A] py-4">
@@ -43,15 +45,34 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col justify-center items-center text-center px-6">
-        <h1 class="text-4xl lg:text-5xl font-bold mb-4 dark:text-[#EDEDEC]">
-            Selamat Datang 
-        </h1>
+  <!-- Main Content -->
+<main class="flex-1 flex items-center justify-center px-6 backdrop-blur-sm bg-blue-900/60">
+
+    <div class="flex flex-col lg:flex-row items-center gap-10">
+
+        <!-- TEKS -->
+        <div class="text-center lg:text-left">
+            <h1 class="text-4xl lg:text-5xl font-bold mb-4 dark:text-[#EDEDEC]">
+                Selamat Datang
+            </h1>
             <p class="text-lg text-gray-600 dark:text-gray-400">
                 Silakan login atau register untuk mulai menggunakan aplikasi.
             </p>
-    </main>
+        </div>
+
+        <!-- ANIMASI LOTTIE -->
+        <lottie-player
+            src="/lottie/mascot-animation.json"
+            background="transparent"
+            speed="1"
+            style="width: 480px; height: 480px;"
+            loop
+            autoplay
+        ></lottie-player>
+
+    </div>
+</main>
+
 
     <!-- Footer -->
     <footer class="w-full border-t border-[#19140035] dark:border-[#3E3E3A] py-4 text-center text-sm text-gray-500 dark:text-gray-400">

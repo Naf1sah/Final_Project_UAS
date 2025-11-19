@@ -14,25 +14,67 @@
     <ul class="navbar-nav ml-auto">
 
         <!-- Notifikasi -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="fas fa-bell fa-2x mr-2 text-secondary"></i>
-                <span class="badge badge-success navbar-badge">3</span>
+@auth
+<li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="fas fa-bell fa-2x mr-2 text-secondary"></i>
+
+        @php
+            $unreadCount = Auth::user()->unreadNotifications()->count();
+        @endphp
+
+        @if ($unreadCount > 0)
+            <span class="badge badge-danger navbar-badge">
+                {{ $unreadCount }}
+            </span>
+        @endif
+    </a>
+
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+        <span class="dropdown-header">
+            {{ $unreadCount }} Notifikasi
+        </span>
+
+        <div class="dropdown-divider"></div>
+
+        @forelse(Auth::user()->notifications()->latest()->take(5)->get() as $notif)
+            <a href="{{ route('notifications.read', $notif->id) }}" class="dropdown-item">
+
+                <i class="fas fa-info-circle mr-2"></i>
+
+                {{ $notif->data['title'] ?? 'Notifikasi' }}
+                <br>
+
+                <small class="text-muted">
+                    {{ $notif->data['message'] ?? '' }}
+                </small>
+
+                <span class="float-right text-sm text-muted">
+                    {{ $notif->created_at->diffForHumans() }}
+                </span>
 
             </a>
+            <div class="dropdown-divider"></div>
+        @empty
+            <span class="dropdown-item text-center text-muted">
+                Tidak ada notifikasi
+            </span>
+        @endforelse
 
-            <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                <span class="dropdown-header">3 Notifications</span>
+        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+        <a href="{{ route('notifications.all') }}" class="dropdown-item dropdown-footer">
+            Lihat Semua Notifikasi
+        </a>
+    
+        
 
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 1 new message
-                    <span class="float-right text-muted text-sm">2 mins</span>
-                </a>
+    </div>
+</li>
+@endauth
 
-            </div>
-        </li>
+
 
         <!-- User Dropdown -->
         @auth

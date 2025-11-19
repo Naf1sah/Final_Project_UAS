@@ -7,8 +7,11 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+     <!-- Tailwind (optional if login juga pakai Tailwind) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-yellow-300 p-6">
 
     <div class="card shadow-sm" style="width: 400px;">
         <div class="card-body">
