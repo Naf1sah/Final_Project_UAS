@@ -27,13 +27,13 @@ class RoomController extends Controller
 
     public function create()
     {
-        $this->authorize('manage-rooms');
+        //$this->authorize('manage-rooms');
         return view('rooms.create');
     }
 
     public function store(Request $request)
     {
-        $this->authorize('manage-rooms');
+        //$this->authorize('manage-rooms');
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -49,13 +49,13 @@ class RoomController extends Controller
 
     public function edit(Room $room)
     {
-        $this->authorize('manage-rooms');
+        //$this->authorize('manage-rooms');
         return view('rooms.edit', compact('room'));
     }
 
     public function update(Request $request, Room $room)
     {
-        $this->authorize('manage-rooms');
+        //$this->authorize('manage-rooms');
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -71,7 +71,7 @@ class RoomController extends Controller
 
     public function destroy(Room $room)
     {
-        $this->authorize('manage-rooms');
+        //$this->authorize('manage-rooms');
         $room->delete();
         return redirect()->route('rooms.index')->with('success', 'Ruangan berhasil dihapus.');
 

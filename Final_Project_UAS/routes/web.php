@@ -90,4 +90,13 @@ Route::get('/_debug-auth', function () {
         'auth_user' => optional(Auth::user())->only('id','name','email','role'),
         'gate_manage_rooms' => Gate::allows('manage-rooms'),
     ];
+
+// Rooms Create Staff
+Route::middleware(['auth', 'staff'])->group(function () {
+    Route::resource('rooms', RoomController::class);
+});
+
+
+
+
 });

@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1>Daftar Ruangan</h1>
+    <h1 class="fw-bold">Daftar Ruangan</h1>
 
-    <a href="{{ route('rooms.create') }}" class="btn btn-primary mb-3">Tambah Ruangan</a>
+    <a href="{{ route('rooms.create') }}" class="btn btn-primary mb-3 mt-3">Tambah Ruangan</a>
 
     <table class="table table-bordered">
         <thead>
@@ -26,12 +26,12 @@
                 <td>{{ $room->location }}</td>
                 <td>{{ $room->status }}</td>
                 <td>
-                    <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-warning btn-sm me-2">Edit</a>
 
                     <form action="{{ route('rooms.destroy', $room->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-sm btn-danger">Hapus</button>
+                       <button class="btn btn-danger btn-sm" onclick="return confirm('Hapus ruangan ini?')">Hapus</button>
                     </form>
                 </td>
             </tr>
