@@ -2,7 +2,7 @@
 <nav class="main-header navbar navbar-expand"
      style="background: #ffffff; border-bottom: 2px solid #1d4ed8;">
 
-    <!-- Left navbar links -->
+    <!-- Left navbar -->
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link text-primary" data-widget="pushmenu" href="#">
@@ -11,14 +11,14 @@
         </li>
     </ul>
 
-    <!-- Right navbar links -->
+    <!-- Right navbar -->
     <ul class="navbar-nav ml-auto">
 
         <!-- Notifikasi -->
         @auth
         <li class="nav-item dropdown">
-            <a class="nav-link position-relative" data-toggle="dropdown" href="#">
 
+            <a class="nav-link position-relative" data-toggle="dropdown" href="#">
                 <i class="fas fa-bell fa-lg text-primary"></i>
 
                 @php
@@ -32,7 +32,9 @@
                 @endif
             </a>
 
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow-lg">
+            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow-lg"
+                 style="min-width: 360px; max-width: 400px;">
+
 
                 <span class="dropdown-header text-primary font-weight-bold">
                     {{ $unreadCount }} Notifikasi
@@ -41,23 +43,32 @@
                 <div class="dropdown-divider"></div>
 
                 @forelse(Auth::user()->notifications()->latest()->take(5)->get() as $notif)
+
                     <a href="{{ route('notifications.read', $notif->id) }}" class="dropdown-item">
 
-                        <i class="fas fa-info-circle mr-2 text-primary"></i>
+                        <div style="display: flex; justify-content: space-between; gap: 10px; width: 100%;">
 
-                        {{ $notif->data['title'] ?? 'Notifikasi' }}
-                        <br>
+                            <!-- Kiri -->
+                            <div style="white-space: normal; word-break: break-word; flex: 1;">
+                                <i class="fas fa-info-circle mr-2 text-primary"></i>
+                                {{ $notif->data['title'] ?? 'Notifikasi' }}
+                                <br>
+                                <small class="text-muted">
+                                    {{ $notif->data['message'] ?? '' }}
+                                </small>
+                            </div>
 
-                        <small class="text-muted">
-                            {{ $notif->data['message'] ?? '' }}
-                        </small>
+                            <!-- Kanan (timestamp) -->
+                            <span style="white-space: nowrap;" class="text-sm text-muted">
+                                {{ $notif->created_at->diffForHumans() }}
+                            </span>
 
-                        <span class="float-right text-sm text-muted">
-                            {{ $notif->created_at->diffForHumans() }}
-                        </span>
+                        </div>
 
                     </a>
+
                     <div class="dropdown-divider"></div>
+
                 @empty
                     <span class="dropdown-item text-center text-muted">
                         Tidak ada notifikasi
@@ -69,26 +80,27 @@
                 <a href="{{ route('notifications.all') }}" class="dropdown-item dropdown-footer text-primary">
                     Lihat Semua Notifikasi
                 </a>
+
             </div>
+
         </li>
         @endauth
 
         <!-- User Dropdown -->
         @auth
         <li class="nav-item dropdown">
+
             <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#">
-
                 <i class="fas fa-user-circle fa-2x mr-2 text-primary"></i>
-
                 <span class="mr-1 text-dark">{{ Auth::user()->name }}</span>
-
                 <i class="fas fa-chevron-down text-primary"></i>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right shadow-lg">
 
                 <a href="{{ route('profile.index') }}" class="dropdown-item">
-                    <i class="fas fa-user-circle fa-lg mr-2 text-primary"></i> Profile
+                    <i class="fas fa-user-circle fa-lg mr-2 text-primary"></i> 
+                    Profile
                 </a>
 
                 <div class="dropdown-divider"></div>
@@ -101,6 +113,7 @@
                 </form>
 
             </div>
+
         </li>
         @endauth
 

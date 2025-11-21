@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Room;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use App\Notifications\BookingCreatedNotification;
 use App\Notifications\BookingStatusUpdated;
-use App\Models\User;
-use Illuminate\Support\Facades\Notification;
 
 class BookingController extends Controller
 {
@@ -17,12 +17,9 @@ class BookingController extends Controller
     {
         $user = Auth::user();
 
-        // staff lihat semua
         if ($user->role === 'staff') {
             $bookings = Booking::with('room', 'user')->latest()->paginate(15);
-        } 
-        else {
-            // mahasiswa/dosen hanya lihat booking miliknya
+        } else {
             $bookings = $user->bookings()
                 ->with('room')
                 ->latest()
@@ -45,29 +42,25 @@ class BookingController extends Controller
             'date' => 'required|date',
             'start_time' => 'required',
             'end_time' => 'required|after:start_time',
-            'purpose' => 'nullable|string'
+            'purpose' => 'nullable|string',
         ]);
 
-        // Cek bentrok waktu
+        // ==== CEK BENTROK ====
         $overlap = Booking::where('room_id', $data['room_id'])
             ->where('date', $data['date'])
             ->where(function ($q) use ($data) {
-                $q->whereBetween('start_time', [$data['start_time'], $data['end_time']])
-                  ->orWhereBetween('end_time', [$data['start_time'], $data['end_time']])
-                  ->orWhere(function ($q2) use ($data) {
-                      $q2->where('start_time', '<', $data['start_time'])
-                         ->where('end_time', '>', $data['end_time']);
-                  });
+                $q->where('start_time', '<', $data['end_time'])
+                  ->where('end_time', '>', $data['start_time']);
             })
             ->exists();
 
         if ($overlap) {
             return back()->withInput()->withErrors([
-                'time' => 'Ruangan sudah dibooking pada waktu tersebut.',
+                'time' => '⛔ Ruangan sudah dibooking pada waktu tersebut.',
             ]);
         }
 
-        // Simpan booking
+        // ==== SIMPAN BOOKING ====
         $booking = Booking::create([
             'user_id' => Auth::id(),
             'room_id' => $data['room_id'],
@@ -78,19 +71,21 @@ class BookingController extends Controller
             'status' => 'pending',
         ]);
 
-        // 🔔 Kirim notifikasi ke user yang membuat booking
+        // Notifikasi ke pembuat booking
         Auth::user()->notify(new BookingCreatedNotification($booking));
 
+        // Notifikasi ke staff
         $staffs = User::where('role', 'staff')->get();
         Notification::send($staffs, new BookingCreatedNotification($booking));
-        return redirect()->route('bookings.index')->with('success', 'Permintaan booking diterima.');
-    }
+
+        return redirect()
+            ->route('bookings.index')
+            ->with('success', 'Permintaan booking diterima.');
+    }  // ⬅️⬅️ PENTING! Kurung yang hilang
 
     public function approve(Booking $booking)
     {
         $booking->update(['status' => 'approved']);
-
-        // 🔔 Kirim notifikasi perubahan status
         $booking->user->notify(new BookingStatusUpdated($booking));
 
         return back()->with('success', 'Booking disetujui.');
@@ -99,8 +94,6 @@ class BookingController extends Controller
     public function reject(Booking $booking)
     {
         $booking->update(['status' => 'rejected']);
-
-        // 🔔 Kirim notifikasi perubahan status
         $booking->user->notify(new BookingStatusUpdated($booking));
 
         return back()->with('success', 'Booking ditolak.');

@@ -24,12 +24,12 @@
 
         <div class="mt-3 d-flex gap-2 flex-wrap">
 
-            <a href="{{ route('bookings.create') }}" class="btn text-white"
+            <a href="{{ route('bookings.create') }}" class="btn text-white mr-2 mb-2"
                 style="background-color: #16a34a;">
                 <i class="fas fa-plus"></i> Buat Booking Baru
             </a>
 
-            <a href="{{ route('bookings.index') }}" class="btn text-white"
+            <a href="{{ route('bookings.index') }}" class="btn text-white mr-2 mb-2"
                 style="background-color: #374151;">
                 <i class="fas fa-list"></i> Lihat Daftar Booking
             </a>
