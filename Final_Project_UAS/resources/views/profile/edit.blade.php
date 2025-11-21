@@ -13,7 +13,7 @@
                     <h3 class="card-title">Edit Profil</h3>
                 </div>
 
-                <form method="POST" action="{{ route('profile.update') }}">
+                <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
 
@@ -37,6 +37,25 @@
                                    value="{{ old('email', $user->email) }}" required>
                         </div>
 
+                        {{-- ================= FOTO PROFIL ================= --}}
+                        <div class="form-group">
+                            <label for="photo">Foto Profil</label>
+
+                            @if ($user->photo)
+                                <div class="mb-2">
+                                    <img src="{{ asset('storage/' . $user->photo) }}" 
+                                         alt="Foto Profil" 
+                                         class="img-thumbnail" width="120">
+                                </div>
+                            @endif
+
+                            <input id="photo" type="file" name="photo" class="form-control">
+
+                            @error('photo')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        {{-- ================================================= --}}
                     </div>
 
                     <div class="card-footer">

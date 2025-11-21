@@ -9,10 +9,36 @@
         <div class="card-body box-profile">
 
             <div class="text-center">
-                <img class="profile-user-img img-fluid img-circle"
-                     src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}"
-                     alt="User profile picture">
-            </div>
+    <div class="position-relative d-inline-block">
+
+        <!-- Foto Profil -->
+        <img class="profile-user-img img-fluid img-circle"
+             src="{{ $user->photo ? asset('storage/' . $user->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
+             alt="User profile picture">
+
+        <!-- Tombol Upload -->
+        <form id="uploadPhotoForm" action="{{ route('profile.uploadPhoto') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <label for="photoInput"
+                style="position: absolute; bottom: 0; right: 0;
+                       background: #007bff; color: #fff;
+                       width: 32px; height: 32px;
+                       border-radius: 50%;
+                       display: flex; justify-content: center; align-items: center;
+                       cursor: pointer; font-size: 20px;">
+                +
+            </label>
+
+            <input type="file" id="photoInput" name="photo"
+                   class="d-none"
+                   onchange="document.getElementById('uploadPhotoForm').submit();">
+        </form>
+
+    </div>
+</div>
+
+
 
             <h3 class="profile-username text-center">{{ $user->name }}</h3>
 

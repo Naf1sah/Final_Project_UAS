@@ -6,6 +6,7 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function() {
     return view('welcome');
@@ -56,6 +57,26 @@ Route::middleware(['web', 'auth'])->group(function(){
         return redirect()->route('profile.edit')->with('status', 'Profile updated!');
     })->name('profile.update');
 
+    // ✅ Tambahan PATCH route untuk update profile + foto
+    Route::patch('/profile', function (\Illuminate\Http\Request $request) {
+        $user = $request->user();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        // update foto
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('profile_photos', 'public');
+            $user->photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('profile.edit')->with('status', 'Profile updated!');
+    })->name('profile.update.patch');
+    Route::post('/profile/upload-photo', [ProfileController::class, 'uploadPhoto'])->name('profile.uploadPhoto');
+
+
     Route::delete('/profile', function (\Illuminate\Http\Request $request) {
         $user = $request->user();
         Auth::logout();
@@ -88,15 +109,12 @@ Route::get('/_debug-auth', function () {
     return [
         'config_db' => config('database.connections.sqlite.database'),
         'auth_user' => optional(Auth::user())->only('id','name','email','role'),
-        'gate_manage_rooms' => Gate::allows('manage-rooms'),
+        //'gate_manage_rooms' => Gate::allows('manage-rooms'),
     ];
 
 // Rooms Create Staff
 Route::middleware(['auth', 'staff'])->group(function () {
     Route::resource('rooms', RoomController::class);
 });
-
-
-
 
 });

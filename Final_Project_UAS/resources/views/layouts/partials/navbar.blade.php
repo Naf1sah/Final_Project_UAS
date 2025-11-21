@@ -90,11 +90,23 @@
         @auth
         <li class="nav-item dropdown">
 
-            <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#">
-                <i class="fas fa-user-circle fa-2x mr-2 text-primary"></i>
-                <span class="mr-1 text-dark">{{ Auth::user()->name }}</span>
-                <i class="fas fa-chevron-down text-primary"></i>
-            </a>
+           <a class="nav-link d-flex align-items-center" data-toggle="dropdown" href="#">
+
+    @php
+        $photo = Auth::user()->photo
+            ? asset('storage/' . Auth::user()->photo)
+            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name);
+    @endphp
+
+    <img src="{{ $photo }}"
+         class="img-circle elevation-2"
+         style="width:35px; height:35px; object-fit:cover; border-radius:50%; margin-right:10px;">
+
+    <span class="mr-1 text-dark">{{ Auth::user()->name }}</span>
+
+    <i class="fas fa-chevron-down text-primary"></i>
+</a>
+
 
             <div class="dropdown-menu dropdown-menu-right shadow-lg">
 

@@ -17,8 +17,19 @@
 
             <!-- Icon User -->
             <div class="image d-flex align-items-center">
-                <i class="fas fa-user-circle fa-2x text-white"></i>
-            </div>
+
+    @php
+        $photo = Auth::check() && Auth::user()->photo
+            ? asset('storage/' . Auth::user()->photo)
+            : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name ?? 'Guest');
+    @endphp
+
+    <img src="{{ $photo }}"
+         class="img-circle elevation-2"
+         style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover;">
+
+</div>
+
 
             <!-- Nama User -->
             <div class="info ml-2">
