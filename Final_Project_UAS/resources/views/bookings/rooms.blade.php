@@ -16,6 +16,7 @@
                     <th>Nama Ruangan</th>
                     <th>Kapasitas</th>
                     <th>Lokasi</th>
+                    <th>Penanggung Jawab</th>
                     <th>Deskripsi</th>
                     <th>Status</th>
                 </tr>
@@ -26,6 +27,7 @@
                     <td>{{ $room->name }}</td>
                     <td>{{ $room->capacity }}</td>
                     <td>{{ $room->location }}</td>
+                    <td>{{ $room->person_in_charge }}</td>
                     <td>{{ $room->description }}</td>
                     <td>
                         @if ($room->status === 'available')

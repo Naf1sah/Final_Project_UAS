@@ -88,6 +88,10 @@
                 <p class="mb-0">
                     <strong>Kapasitas:</strong> {{ $room->capacity }} orang
                 </p>
+                <p class="mb-1">
+                  <strong>Penanggung Jawab:</strong> {{ $room->person_in_charge }}
+                </p>
+
             </div>
         @empty
             <p class="text-muted"><i>Tidak ada ruangan yang terdaftar.</i></p>

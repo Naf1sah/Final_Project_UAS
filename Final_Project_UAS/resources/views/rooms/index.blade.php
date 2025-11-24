@@ -14,6 +14,7 @@
                 <th>Nama</th>
                 <th>Kapasitas</th>
                 <th>Lokasi</th>
+                <th>Penanggung Jawab</th>
                 <th>Status</th>
                 <th>Aksi</th>
             </tr>
@@ -24,6 +25,7 @@
                 <td>{{ $room->name }}</td>
                 <td>{{ $room->capacity }}</td>
                 <td>{{ $room->location }}</td>
+                <td>{{ $room->person_in_charge }}</td>
                 <td>{{ $room->status }}</td>
                 <td>
                     <a href="{{ route('rooms.edit', $room->id) }}" class="btn btn-warning btn-sm me-2">Edit</a>

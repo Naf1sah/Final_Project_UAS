@@ -39,6 +39,7 @@ class RoomController extends Controller
             'name' => 'required|string|max:255',
             'capacity' => 'nullable|integer|min:0',
             'location' => 'nullable|string|max:255',
+            'person_in_charge' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'required|in:available,maintenance'
         ]);
@@ -61,6 +62,7 @@ class RoomController extends Controller
             'name' => 'required|string|max:255',
             'capacity' => 'nullable|integer|min:0',
             'location' => 'nullable|string|max:255',
+            'person_in_charge' => 'required|string|max:255',
             'description' => 'nullable|string',
             'status' => 'required|in:available,maintenance'
         ]);

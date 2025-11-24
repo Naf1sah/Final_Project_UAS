@@ -30,6 +30,23 @@
                 </div>
 
                 <div class="form-group">
+    <label>Penanggung Jawab</label>
+    <select name="person_in_charge" class="form-control" required>
+        <option value="" disabled>Pilih Penanggung Jawab</option>
+        @foreach([
+            'John Doe','Jane Smith','Alice Johnson','Bob Brown','Carol White',
+            'David Green','Eva Blue','Frank Black','Grace Yellow','Hank Orange',
+            'Ivy Purple','Jack Gray','Kathy Silver','Larry Gold','Mona Bronze'
+        ] as $user)
+            <option value="{{ $user }}" {{ $room->person_in_charge == $user ? 'selected' : '' }}>
+                {{ $user }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+
+                <div class="form-group">
                     <label>Deskripsi</label>
                     <textarea name="description" class="form-control">{{ $room->description }}</textarea>
                 </div>
