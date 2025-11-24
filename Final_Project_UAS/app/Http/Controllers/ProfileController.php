@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
@@ -29,12 +31,19 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
-
-        // Ambil data validasi default (name, email, dll)
         $data = $request->validated();
 
-        // ====== Upload Foto dari Edit Profile ======
+        // Nama & email tidak boleh berubah
+        $data['name'] = $user->name;
+        $data['email'] = $user->email;
+
+        $updated = false;
+
+        /** ==================== UPDATE FOTO PROFIL ==================== **/
         if ($request->hasFile('photo')) {
+            $request->validate([
+                'photo' => ['image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            ]);
 
             // Hapus foto lama jika ada
             if ($user->photo && Storage::exists('public/' . $user->photo)) {
@@ -43,47 +52,53 @@ class ProfileController extends Controller
 
             // Upload foto baru
             $path = $request->file('photo')->store('profile', 'public');
-
-            // Masukkan ke array supaya ikut di-fill()
-            $data['photo'] = $path;
-        }
-        // ============================================
-
-        // Isi field yang sudah divalidasi + foto bila ada
-        $user->fill($data);
-
-        // Reset verifikasi email jika email diubah
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
+            $user->photo = $path;
+            $updated = true;
         }
 
-        $user->save();
+        /** ==================== UPDATE PASSWORD ==================== **/
+        if ($request->filled('current_password') || $request->filled('password')) {
 
-        return Redirect::route('profile.index')->with('status', 'profile-updated');
-    }
+            $request->validate([
+                'current_password' => ['required'],
+                'password'          => ['required', 'confirmed', Password::defaults()],
+            ]);
 
-    // 🔥 Tambahan Baru: Upload Foto dari Icon (+)
-    public function uploadPhoto(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'photo' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
-        ]);
+            if (!Hash::check($request->current_password, $user->password)) {
+                return back()->withErrors(['current_password' => 'Password lama tidak sesuai']);
+            }
 
-        $user = Auth::user();
-
-        // Hapus foto lama jika ada
-        if ($user->photo && Storage::exists('public/' . $user->photo)) {
-            Storage::delete('public/' . $user->photo);
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return Redirect::route('profile.edit')->with('status', 'password-updated');
         }
 
-        // Upload foto baru
-        $path = $request->file('photo')->store('profile', 'public');
+        /** ==================== UPDATE DATA PROFIL LAIN ==================== **/
+        if (!empty($data)) {
+            // Amankan field yang tidak boleh berubah
+            unset($data['name'], $data['email']);
+            $user->fill($data);  
+            $updated = true;
+        }
 
-        // Simpan ke database
-        $user->photo = $path;
-        $user->save();
+        /** ==================== SIMPAN PERUBAHAN JIKA ADA ==================== **/
+        if ($updated) {
 
-        return back()->with('status', 'photo-updated');
+            // FIX anti error NOT NULL name & email
+            $user->name = $user->name;
+            $user->email = $user->email;
+
+            $user->save();
+
+            if ($request->hasFile('photo')) {
+                return Redirect::route('profile.edit')->with('status', 'photo-updated');
+            }
+
+            return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        }
+
+        /** ==================== JIKA TIDAK ADA PERUBAHAN ==================== **/
+        return Redirect::route('profile.edit')->with('status', 'nothing-updated');
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -95,7 +110,6 @@ class ProfileController extends Controller
         $user = $request->user();
 
         Auth::logout();
-
         $user->delete();
 
         $request->session()->invalidate();

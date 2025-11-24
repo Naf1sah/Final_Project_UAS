@@ -81,7 +81,7 @@ class BookingController extends Controller
         return redirect()
             ->route('bookings.index')
             ->with('success', 'Permintaan booking diterima.');
-    }  // ⬅️⬅️ PENTING! Kurung yang hilang
+    } 
 
     public function approve(Booking $booking)
     {
