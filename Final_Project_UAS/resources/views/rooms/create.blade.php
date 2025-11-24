@@ -11,40 +11,63 @@
 
         <div class="card-body">
             <form action="{{ route('rooms.store') }}" method="POST">
-                @csrf
+    @csrf
 
-                <div class="form-group">
-                    <label>Nama Ruangan</label>
-                    <input type="text" name="name" class="form-control" required>
-                </div>
+    <div class="form-group">
+        <label>Nama Ruangan</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
 
-                <div class="form-group">
-                    <label>Kapasitas</label>
-                    <input type="number" name="capacity" class="form-control">
-                </div>
+    <div class="form-group">
+        <label>Kapasitas</label>
+        <input type="number" name="capacity" class="form-control">
+    </div>
 
-                <div class="form-group">
-                    <label>Lokasi</label>
-                    <input type="text" name="location" class="form-control">
-                </div>
+    <div class="form-group">
+        <label>Lokasi</label>
+        <input type="text" name="location" class="form-control">
+    </div>
 
-                <div class="form-group">
-                    <label>Deskripsi</label>
-                    <textarea name="description" class="form-control"></textarea>
-                </div>
+    <div class="form-group">
+    <label>Penanggung Jawab</label>
+    <select name="person_in_charge" class="form-control" required>
+        <option value="" disabled selected>Pilih Penanggung Jawab</option>
+        <option value="John Doe">John Doe</option>
+        <option value="Jane Smith">Jane Smith</option>
+        <option value="Alice Johnson">Alice Johnson</option>
+        <option value="Bob Brown">Bob Brown</option>
+        <option value="Carol White">Carol White</option>
+        <option value="David Green">David Green</option>
+        <option value="Eva Blue">Eva Blue</option>
+        <option value="Frank Black">Frank Black</option>
+        <option value="Grace Yellow">Grace Yellow</option>
+        <option value="Hank Orange">Hank Orange</option>
+        <option value="Ivy Purple">Ivy Purple</option>
+        <option value="Jack Gray">Jack Gray</option>
+        <option value="Kathy Silver">Kathy Silver</option>
+        <option value="Larry Gold">Larry Gold</option>
+        <option value="Mona Bronze">Mona Bronze</option>
+    </select>
+</div>
 
-                <div class="form-group">
-                    <label>Status Ruangan</label>
-                    <select name="status" class="form-control" required>
-                        <option value="available">Tersedia</option>
-                        <option value="maintenance">Maintenance</option>
-                    </select>
-                </div>
 
-                <button type="submit" class="btn btn-success mt-3">Simpan</button>
-                <a href="{{ route('rooms.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+    <div class="form-group">
+        <label>Deskripsi</label>
+        <textarea name="description" class="form-control"></textarea>
+    </div>
 
-            </form>
+    <div class="form-group">
+        <label>Status Ruangan</label>
+        <select name="status" class="form-control" required>
+            <option value="available">Tersedia</option>
+            <option value="maintenance">Maintenance</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Simpan</button>
+    <a href="{{ route('rooms.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+</form>
+
         </div>
     </div>
 </div>
